@@ -1,4 +1,4 @@
-package firstGitProject;
+package fr.fgp.controller;
 
 public class Controller {
 
