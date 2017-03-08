@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<project name="TestAnt1">
+  <description>
+   Test ANT avec JUnit
+  </description>
+
+<path id="webapp.tests.path" >
+    <pathelement location="${red5.home}/red5.jar"/>
+    <pathelement location="${red5.home}/boot.jar"/>
+    <pathelement location="${bin.dir}/${ant.project.name}.jar"/>
+    <pathelement path="${red5.lib.dir}"/>
+    <pathelement path="${main.java.lib.dir}"/>
+    <pathelement path="${test.java.lib.dir}"/>
+</path>
+
+<target name="compile.webapp.tests" depends="compile.webapp">
+    <javac srcdir="${test.java.src.dir}"
+            destdir="${test.java.bin.dir}">
+        <classpath refid="webapp.tests.path"/>
+    </javac>
+</target>
+
+<target name="run.webapp.tests" depends="compile.webapp.tests">     
+    <junit printsummary="true">
+        <classpath>
+            <path refid="webapp.tests.path"/>
+            <pathelement location="${test.lib.dir}/ant/ant-junit.jar"/>
+            <pathelement location="${test.lib.dir}/ant/junit-4.8.2.jar"/>
+            <pathelement path="${test.java.bin.dir}"/>
+        </classpath>
+
+        <formatter type="xml"/>
+
+        <batchtest todir="${test.java.output.dir}">
+            <fileset dir="${test.java.bin.dir}" includes="**/*TestCase*"/>
+        </batchtest>
+    </junit>
+
+    <junitreport todir="${test.java.report.dir}">
+        <fileset dir="${test.java.output.dir}" includes="**/*"/>
+        <report todir="${test.java.report.dir}"/>
+    </junitreport>
+
+    <delete file="${test.java.report.dir}/TESTS-TestSuites.xml"/>
+</target>
+
+</project>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<project name="TestAnt1" default="all">
+  <description>
+   Test ANT avec JUnit
+  </description>
+ 
+  <property name="bin" location="."/>
+  <property name="src" location="."/>
+  <property name="build" location="build"/>
+  <property name="doc" location="${build}/doc"/>
+  <property name="lib" location="${build}/lib"/>
+  <property name="junit_path" value="D:/eclipse/plugins/org.junit_4.8.2.v4_8_2_v20110321-1705/junit.jar"/>
+  <property name="junit3_path" value="D:/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar"/>	
+  <property name="hamrect" value="D:/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar"/>	
+  <target name="compil"  description="Compilation">
+    <javac srcdir="${src}" destdir="${bin}"> 
+          <classpath>
+        <pathelement location="${junit_path}"/>
+        <!--pathelement location="${hamrect_path}"/-->
+        <pathelement location="${fixture_path}"/>
+      </classpath>
+    </javac>
+  </target>
+  <target name="test" depends="compil" description="Executer tests avec JUnit">
+    <junit fork="yes" haltonerror="true" printsummary="on">
+      <classpath>
+        <pathelement location="${bin}"/>
+      	<pathelement location="${junit_path}"/>
+      </classpath>
+      <formatter type="plain" usefile="false" />
+      <test name="TestFenetre"/>
+    </junit>
+  </target>
+   <target name="all" depends="compil, test"  description="Generation complete">
+	    <echo message="Compilation + Test OK."/>
+  </target>
+</project>
