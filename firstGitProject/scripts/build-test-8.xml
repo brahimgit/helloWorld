@@ -1,55 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="sw_pm_app" basedir="." default="testReports" >
-
 	<!--
     [ property definitions ]
     [ path and patternset ]
     [ targets ]
--->
+    -->
 	<property name="app.home" value=".."/>
 	<property name="app.name" value="sw_pm_app" />
 	<property name="webapp.name" value="webapp" />
 	<property name="src.home" value="${app.home}/src"/>
 	<property name="test.home" value="${app.home}/test"/>
-	<property name="src.home.properties" value="${app.home}/src/properties"/>
 	<property name="test.reports.home" location="${app.home}/reports"/>	
-	<property name="lib.home" value="${app.home}/lib"/>
-	<property name="doc.home" value="${app.home}/doc"/>
 	<property name="webapp.home" value="${app.home}/${webapp.name}"/>
-	<property name="jsp.home" value="${webapp.home}/JSP"/>
 	<property name="webapp.home.classes" value="${webapp.home}/WEB-INF/classes"/>
-	<property name="webapp.home.classes.properties" value="${webapp.home}/WEB-INF/classes/properties"/>
+	<property name="webapp.home.classes.src" value="${webapp.home}/WEB-INF/classes/src"/>
+	<property name="webapp.home.classes.test" value="${webapp.home}/WEB-INF/classes/test"/>
 	<property name="webapp.home.lib" value="${webapp.home}/WEB-INF/lib"/>
 	<property environment="env"/>
+		
 	<!-- creation du classpath de compilation -->
 	<path id="compile.class.path">
-		<pathelement location="${webapp.home.classes}"/>
-		<!-- les bibliotheques de l'application -->
+		<pathelement location="${webapp.home.classes.src}"/>
+		<pathelement location="${webapp.home.classes.test}"/>
 		<fileset dir="${webapp.home.lib}">
 			<include name="*.jar"/>
 		</fileset>
 	</path>
-
-
+			
 	<!-- la cible clean efface toute trace de l'application qui sont sous controle -->
 	<target name="clean">
 		<delete dir="${webapp.home.classes}"/>
-		<delete dir="${deploy.webapp.home}"/>
 	</target>
-
-
+			
 	<!-- 
-   la cible init est executee avant toutes les autres 
-   elle verifie que les repertoires existent et les cree si necessaire
- -->
-	<target name="init" depends="clean">
-		<echo message="init : ${app.name}"/>
-		<mkdir dir="${webapp.home.classes}"/>
-		<mkdir dir="${webapp.home.classes.properties}"/>
-		<mkdir dir="${deploy.webapp.home}"/>
+    la cible init est executee avant toutes les autres 
+    elle verifie que les repertoires existent et les cree si necessaire
+    -->
+    <target name="init" depends="clean">
+    	<mkdir dir="${webapp.home.classes.src}"/>
+		<mkdir dir="${webapp.home.classes.test}"/>
 	</target>
-	<target name="test-compile" depends="init">
+	<target name="javaCompile" depends="init">
+			<javac srcdir="${src.home}" destdir="${webapp.home.classes.src}" optimize="${optimize}" debug="${debug}" debuglevel="${debuglevel}" deprecation="on" includeantruntime="false">
+				<classpath refid="compile.class.path"/>
+			</javac>
+	</target>		
+	<target name="testCompile" depends="javaCompile">
 		<property name="debuglevel" value="lines,vars,sources" />
 		<property name="debug" value="false"/>
 		<property name="optimize" value="on"/>
@@ -60,19 +57,18 @@
 		      debug = ${debug}
 		      debug level = ${debuglevel}
 		</echo>
-		<javac srcdir="${test.home}" destdir="${webapp.home.classes}" optimize="${optimize}" debug="${debug}" debuglevel="${debuglevel}" deprecation="on" includeantruntime="false">
+		<javac srcdir="${test.home}" destdir="${webapp.home.classes.test}" optimize="${optimize}" debug="${debug}" debuglevel="${debuglevel}" deprecation="on" includeantruntime="false">
 			<classpath refid="compile.class.path"/>
 		</javac>
 	</target>
-	<target name="unitTests" depends="test-compile">
+	<target name="unitTests" depends="testCompile">
 		<mkdir dir="${test.reports.home}"/>
-			<echo> test.home ===> ${webapp.home.classes} </echo>
 		<junit printsummary="yes">
 			<classpath refid="compile.class.path"/>
 			<formatter type="brief" usefile="false"/>
 			<formatter type="xml"/>
 			<batchtest todir="${test.reports.home}" failureproperty="failed" errorproperty="failed">
-				<fileset dir="${test.home}" includes="**/*Test.java" />
+				<fileset dir="${webapp.home.classes.test}" includes="**/*Test.class" />
 			</batchtest>
 		</junit>
 	</target>
