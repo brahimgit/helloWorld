@@ -8,4 +8,6 @@ public class ControllerTest {
 	public void test1() {
 		Assert.assertEquals(9, new Controller().somme(4, 5));
 	}
+	
+	
 }

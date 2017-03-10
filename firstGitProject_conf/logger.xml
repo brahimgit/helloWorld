@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name="DEV_HOME" value="/home/s0063211_proc/env-dev/log" />
+	<!-- Appender to log in the standard output -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<encoder>
+			<pattern>%date{yyyy.MM.dd' 'HH'h'mm'm'ss's'SSS'ms'} | %-15thread [%-5level] %-30logger{30} : %message%n</pattern>
+		</encoder>
+	</appender>
+	<!-- Appender to log in the file output -->
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+            <file>${DEV_HOME}/archived/debug.%d{yyyy-MM-dd}.%i.log</file>
+            <append>false</append>
+            <encoder>
+              <pattern>%date{yyyy.MM.dd' 'HH'h'mm'm'ss's'SSS'ms'} | %-15thread [%-5level] %-30logger{30} : %message%n</pattern>
+            </encoder>
+    </appender>
+	<!-- Initialize the logging level of packages-->
+	
+	
+	<!-- Initialize the logging level of packages-->
+		
+	<!-- Set the appender(s) to use -->
+	<root level="DEBUG">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>
