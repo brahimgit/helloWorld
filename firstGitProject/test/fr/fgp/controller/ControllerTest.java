@@ -4,16 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ControllerTest {
-
 	@Test
 	public void test1() {
-		Assert.assertTrue(true);
+		Assert.assertEquals(9, new Controller().somme(4, 5));
 	}
-	
-	
-	@Test
-	public void test2() {
-		Assert.assertTrue(false);
-	}
-	
 }
