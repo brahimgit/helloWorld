@@ -15,5 +15,7 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/env-dev/developement/jars/Junit/PowerMock/1.6.4/powermock-api-mockito-1.6.4.jar"/>
+	<classpathentry kind="lib" path="C:/env-dev/developement/jars/Junit/PowerMock/1.6.4/powermock-module-junit4-1.6.4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
