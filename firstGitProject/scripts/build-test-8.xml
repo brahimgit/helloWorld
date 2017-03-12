@@ -29,7 +29,7 @@
 	</path>
 			
 	<!-- la cible clean efface toute trace de l'application qui sont sous controle -->
-	<target name="clean">
+	<target name="clean" depends="environmentDisplay">
 		<delete dir="${webapp.home.classes}"/>
 	</target>
 			
@@ -82,11 +82,10 @@
 		</junitreport>
 	</target>
 			
-		<!--<property environment="env"/>
-			<target name="run">
+			<target name="environmentDisplay">
 			    <echo message="Jenkins workspace: ${env.WORKSPACE}"/>
 			    <echo message="Job directory: ${env.WORKSPACE}../../jobs/${env.JOB_NAME}"/>
 			    <echo message="Build data: ${env.WORKSPACE}../../jobs/${env.JOB_NAME}/build/${env.BUILD_ID}"/>
-			</target> -->
+			</target>
 
 </project>
